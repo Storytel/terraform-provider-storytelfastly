@@ -7,6 +7,7 @@ import (
 	"context"
 	"encoding/hex"
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/fastly/go-fastly/v9/fastly"
@@ -41,7 +42,7 @@ type SecretStoreEntriesModel struct {
 	CreatedAt types.String `tfsdk:"created_at"`
 }
 
-func (r *SecretStoreEntriesResource) augmentStateFromSecret(secret *fastly.Secret, model *SecretStoreEntriesModel) {
+func (r *SecretStoreEntriesResource) augmentStateFromSecret(ctx context.Context, secret *fastly.Secret, model *SecretStoreEntriesModel) {
 	model.CreatedAt = types.StringValue(secret.CreatedAt.Format(time.RFC3339))
 	model.Digest = types.StringValue(hex.EncodeToString(secret.Digest))
 }
@@ -121,7 +122,7 @@ func (r *SecretStoreEntriesResource) Create(ctx context.Context, req resource.Cr
 		return
 	}
 
-	r.augmentStateFromSecret(secret, &data)
+	r.augmentStateFromSecret(ctx, secret, &data)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -141,9 +142,10 @@ func (r *SecretStoreEntriesResource) Read(ctx context.Context, req resource.Read
 			"could not get secret with name "+data.Key.ValueString()+" from store "+data.StoreID.ValueString(),
 			err.Error(),
 		)
+		return
 	}
 
-	r.augmentStateFromSecret(secret, &data)
+	r.augmentStateFromSecret(ctx, secret, &data)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -162,9 +164,10 @@ func (r *SecretStoreEntriesResource) Update(ctx context.Context, req resource.Up
 	})
 	if err != nil {
 		resp.Diagnostics.AddError("failed to update secret with key "+data.Key.ValueString(), err.Error())
+		return
 	}
 
-	r.augmentStateFromSecret(secret, &data)
+	r.augmentStateFromSecret(ctx, secret, &data)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -181,9 +184,12 @@ func (r *SecretStoreEntriesResource) Delete(ctx context.Context, req resource.De
 	})
 	if err != nil {
 		resp.Diagnostics.AddError("failed to delete secret with key "+data.Key.ValueString(), err.Error())
+		return
 	}
 }
 
 func (r *SecretStoreEntriesResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
+	parts := strings.Split(req.ID, ".")
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("store_id"), parts[0])...)
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("key"), parts[1])...)
 }
