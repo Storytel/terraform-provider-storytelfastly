@@ -1,4 +1,4 @@
-# Copyright (c) HashiCorp, Inc.
+# Copyright (c) Storytel AB
 
 resource "storytelfastly_secretstore_entry" "entry" {
   store_id = "myid"

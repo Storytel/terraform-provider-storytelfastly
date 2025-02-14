@@ -13,7 +13,7 @@ Entries into a Fastly SecretStore
 ## Example Usage
 
 ```terraform
-# Copyright (c) HashiCorp, Inc.
+# Copyright (c) Storytel AB
 
 resource "storytelfastly_secretstore_entry" "entry" {
   store_id = "myid"
@@ -41,7 +41,7 @@ resource "storytelfastly_secretstore_entry" "entry" {
 Import is supported using the following syntax:
 
 ```shell
-# Copyright (c) HashiCorp, Inc.
+# Copyright (c) Storytel AB
 
 # Secrets can be imported - or rather, the key can be overwritten with specified value - by providing store_id.key as the resource id.
 terraform import storytelfastly_secretstore_entry.entry abcdef0123456789.my_secret_name
