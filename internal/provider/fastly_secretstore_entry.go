@@ -42,7 +42,7 @@ type SecretStoreEntriesModel struct {
 	CreatedAt types.String `tfsdk:"created_at"`
 }
 
-func (r *SecretStoreEntriesResource) augmentStateFromSecret(ctx context.Context, secret *fastly.Secret, model *SecretStoreEntriesModel) {
+func (r *SecretStoreEntriesResource) augmentStateFromSecret(secret *fastly.Secret, model *SecretStoreEntriesModel) {
 	model.CreatedAt = types.StringValue(secret.CreatedAt.Format(time.RFC3339))
 	model.Digest = types.StringValue(hex.EncodeToString(secret.Digest))
 }
@@ -122,7 +122,7 @@ func (r *SecretStoreEntriesResource) Create(ctx context.Context, req resource.Cr
 		return
 	}
 
-	r.augmentStateFromSecret(ctx, secret, &data)
+	r.augmentStateFromSecret(secret, &data)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -145,7 +145,7 @@ func (r *SecretStoreEntriesResource) Read(ctx context.Context, req resource.Read
 		return
 	}
 
-	r.augmentStateFromSecret(ctx, secret, &data)
+	r.augmentStateFromSecret(secret, &data)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -167,7 +167,7 @@ func (r *SecretStoreEntriesResource) Update(ctx context.Context, req resource.Up
 		return
 	}
 
-	r.augmentStateFromSecret(ctx, secret, &data)
+	r.augmentStateFromSecret(secret, &data)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
