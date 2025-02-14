@@ -104,7 +104,6 @@ func (r *SecretStoreEntriesResource) Configure(ctx context.Context, req resource
 }
 
 func (r *SecretStoreEntriesResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
-
 	var data SecretStoreEntriesModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
@@ -127,7 +126,6 @@ func (r *SecretStoreEntriesResource) Create(ctx context.Context, req resource.Cr
 }
 
 func (r *SecretStoreEntriesResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-
 	var data SecretStoreEntriesModel
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
@@ -150,7 +148,6 @@ func (r *SecretStoreEntriesResource) Read(ctx context.Context, req resource.Read
 }
 
 func (r *SecretStoreEntriesResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-
 	var data SecretStoreEntriesModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
@@ -172,7 +169,6 @@ func (r *SecretStoreEntriesResource) Update(ctx context.Context, req resource.Up
 }
 
 func (r *SecretStoreEntriesResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-
 	var data SecretStoreEntriesModel
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
