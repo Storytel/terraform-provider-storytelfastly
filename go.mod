@@ -5,7 +5,7 @@ go 1.23
 toolchain go1.23.6
 
 require (
-	github.com/fastly/go-fastly/v9 v9.13.0
+	github.com/fastly/go-fastly/v9 v9.13.1
 	github.com/hashicorp/terraform-plugin-framework v1.13.0
 )
 
