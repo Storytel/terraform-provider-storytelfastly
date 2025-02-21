@@ -4,6 +4,7 @@ package provider
 
 import (
 	"context"
+	"crypto/rand"
 	"encoding/hex"
 	"fmt"
 	"strings"
@@ -142,6 +143,16 @@ func (r *SecretStoreEntriesResource) Read(ctx context.Context, req resource.Read
 			err.Error(),
 		)
 		return
+	}
+
+	if data.Digest.ValueString() != hex.EncodeToString(secret.Digest) {
+		resp.Diagnostics.AddWarning("Remote value has changed", "The secret in the secretstore has changed out of terraform. Will reset it to configured value on apply.")
+		randBytes := make([]byte, 16)
+		if _, err := rand.Read(randBytes); err != nil {
+			resp.Diagnostics.AddError("failed to read", "failed to generate random bytes for remotely changed value")
+			return
+		}
+		data.Value = types.StringValue(hex.EncodeToString(randBytes))
 	}
 
 	r.augmentStateFromSecret(secret, &data)
