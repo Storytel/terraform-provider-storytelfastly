@@ -8,11 +8,17 @@ updates:
     schedule:
       # Check for updates to Go modules every weekday
       interval: "daily"
+    cooldown:
+      default-days: 21
   - package-ecosystem: "gomod"
     directory: "/tools"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 21
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 21
