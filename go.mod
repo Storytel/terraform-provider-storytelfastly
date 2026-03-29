@@ -1,11 +1,10 @@
 module terraform-provider-storytelfastly
 
 go 1.23
-
 toolchain go1.23.6
 
 require (
-	github.com/fastly/go-fastly/v9 v9.13.0
+	github.com/fastly/go-fastly/v9 v9.14.0
 	github.com/hashicorp/terraform-plugin-framework v1.13.0
 )
 
@@ -32,7 +31,7 @@ require (
 	github.com/peterhellberg/link v1.2.0 // indirect
 	github.com/vmihailenco/msgpack/v5 v5.4.1 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
-	golang.org/x/crypto v0.33.0 // indirect
+	golang.org/x/crypto v0.35.0 // indirect
 	golang.org/x/net v0.35.0 // indirect
 	golang.org/x/sys v0.30.0 // indirect
 	golang.org/x/text v0.22.0 // indirect
